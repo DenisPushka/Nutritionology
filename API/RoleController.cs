@@ -13,11 +13,11 @@ namespace API
         /// <summary>
         /// Провайдер для таблицы ролей.
         /// </summary>
-        private RoleManager<UserRole> _roleManager { get; set; }
+        private RoleManager<UserRole> RoleManager { get; }
 
         public RoleController(RoleManager<UserRole> roleManager)
         {
-            _roleManager = roleManager;
+            RoleManager = roleManager;
         }
 
         /// <summary>
@@ -30,12 +30,12 @@ namespace API
         {
             //TODO Validation.
 
-            if (await _roleManager.FindByNameAsync(role.Name) == null)
+            if (await RoleManager.FindByNameAsync(role.Name!) == null)
             {
-                await _roleManager.CreateAsync(new UserRole(role.Name));
+                await RoleManager.CreateAsync(new UserRole(role.Name!));
             }
 
-            return Ok(_roleManager.Roles);
+            return Ok(RoleManager.Roles);
         }
     }
 }

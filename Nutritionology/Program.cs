@@ -1,5 +1,7 @@
-using API;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using DataAccess;
+using DataAccess.Interface;
+using DataAccess.Providers;
+using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Nutritionology;
 
@@ -19,6 +21,10 @@ builder.Services.AddIdentity<User, UserRole>(options =>
 })
 .AddRoles<UserRole>()
 .AddEntityFrameworkStores<IdentityContext>();
+
+builder.Services.AddTransient<MRAspNet>();
+builder.Services.AddTransient<MRLinq2Db>();
+builder.Services.AddTransient<IMRRepository, MRRepository>();
 
 builder.Services.AddDbContext<IdentityContext>(cfg =>
 {
@@ -46,7 +52,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

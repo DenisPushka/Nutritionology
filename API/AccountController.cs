@@ -15,25 +15,24 @@ namespace API
         /// <summary>
         /// Провайдер для таблицы пользователей.
         /// </summary>
-        private UserManager<User> _userManager { get; set; }
+        private UserManager<User> UserManager { get; }
 
         /// <summary>
         /// Провайдер входа в систему.
         /// </summary>
-        private SignInManager<User> _signIn { get; set; }
+        private SignInManager<User> _signIn { get; }
 
         /// <summary>
         /// Конструктор с 3 параметрами.
         /// </summary>
         /// <param name="userManager">Провайдер для таблицы пользователей.</param>
         /// <param name="signIn">Провайдер входа в систему.</param>
-        /// <param name="roleManager">Провайдер для таблицы ролей.</param>
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signIn
             )
         {
-            _userManager = userManager;
+            UserManager = userManager;
             _signIn = signIn;
         }
 
@@ -50,10 +49,9 @@ namespace API
             // TODO ВЫНЕСТИ В СЕРВИС.
             if (ModelState.IsValid)
             {
-                user.NormalizedUserName = user.Email.ToUpper();
-                using (var md5 = MD5.Create())
+                user.NormalizedUserName = user.Email!.ToUpper();
+                using (MD5.Create())
                 {
-                    var text = System.Text.Encoding.ASCII.GetBytes(user.PasswordHash);
                     var random = new byte[16];
 
                     //RNGCryptoServiceProvider is an implementation of a random number generator.
@@ -68,11 +66,11 @@ namespace API
                         numBytesRequested: 256 / 8));
                 }
 
-                var result = await _userManager.CreateAsync(user, user.PasswordHash);
+                var result = await UserManager.CreateAsync(user, user.PasswordHash);
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, userView.Role.Name);
+                    await UserManager.AddToRoleAsync(user, userView.Role!.Name!);
                 }
             }
 
