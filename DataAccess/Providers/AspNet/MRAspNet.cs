@@ -1,19 +1,18 @@
-﻿using System.Data;
-using System.Data.Common;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using DataAccess.Providers;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Nutritionology;
+using Validation;
 
 namespace DataAccess
 {
     /// <summary>
-    /// Реализатор запросов для МР и прилегающей к ней
+    /// Реализатор запросов для таблицы "МР" и прилегающих к ней
     /// словарей (Элемент МР, СИ, Биологический элемент).
     /// </summary>
-    public class MRAspNet: ParentSql
+    public class MRAspNet : ParentSql
     {
         public MRAspNet(IConfiguration config)
             : base(config)
@@ -28,7 +27,10 @@ namespace DataAccess
         /// <param name="ms">Добавляемый объект.</param>
         public async Task AddMs(MeasurementSystem ms)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckObject(ms);
+            ValidationHelper.CheckString(ms.ShortName);
+            ValidationHelper.CheckString(ms.FullName);
+
             await using var connection = new SqlConnection(Connection);
             var command = new SqlCommand(SqlScriptsMr.AddMs, connection);
             command.Parameters.AddWithValue("@shortName", ms.ShortName);
@@ -43,7 +45,14 @@ namespace DataAccess
         /// <param name="mses">Добавляемый объект.</param>
         public async Task AddArrayMs(IEnumerable<MeasurementSystem> mses)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckObject(mses);
+            foreach (var ms in mses)
+            {
+                ValidationHelper.CheckObject(ms);
+                ValidationHelper.CheckString(ms.ShortName);
+                ValidationHelper.CheckString(ms.FullName);
+            }
+
             var queryAddMs = new StringBuilder(SqlScriptsMr.AddMsShot);
 
             foreach (var ms in mses)
@@ -71,7 +80,10 @@ namespace DataAccess
         /// <param name="biologicallyElement">Добавляемый объект.</param>
         public async Task AddBiologicallyElement(BiologicalElement biologicallyElement)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckObject(biologicallyElement);
+            ValidationHelper.CheckString(biologicallyElement.ShortName);
+            ValidationHelper.CheckString(biologicallyElement.FullName);
+
             await using var connection = new SqlConnection(Connection);
             var command = new SqlCommand(SqlScriptsMr.AddBEl, connection);
 
@@ -87,7 +99,14 @@ namespace DataAccess
         /// <param name="biologicallyElements">Добавляемый объект.</param>
         public async Task AddBiologicallyElements(IEnumerable<BiologicalElement> biologicallyElements)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckObject(biologicallyElements);
+            foreach (var bl in biologicallyElements)
+            {
+                ValidationHelper.CheckObject(bl);
+                ValidationHelper.CheckString(bl.ShortName);
+                ValidationHelper.CheckString(bl.FullName);
+            }
+
             var queryAddBiolEl = new StringBuilder(SqlScriptsMr.AddBElShot);
 
             foreach (var bl in biologicallyElements)
@@ -115,7 +134,13 @@ namespace DataAccess
         /// <param name="mrItem">Добавляемый объект.</param>
         public async Task AddMrItem(MRItem mrItem)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckObject(mrItem);
+            ValidationHelper.CheckString(mrItem.Name);
+            ValidationHelper.CheckObject(mrItem.MeasurementSystem);
+            ValidationHelper.CheckGuid(mrItem.MeasurementSystem.MSId);
+            ValidationHelper.CheckObject(mrItem.BiologicalElement);
+            ValidationHelper.CheckGuid(mrItem.BiologicalElement.BiologicalElementId);
+
             await using var connection = new SqlConnection(Connection);
             var command = new SqlCommand(SqlScriptsMr.AddMrItem, connection);
 
@@ -132,7 +157,17 @@ namespace DataAccess
         /// <param name="mrItems">Добавляемый объект.</param>
         public async Task AddMrItems(IEnumerable<MRItem> mrItems)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckObject(mrItems);
+            foreach (var item in mrItems)
+            {
+                ValidationHelper.CheckObject(item);
+                ValidationHelper.CheckString(item.Name);
+                ValidationHelper.CheckObject(item.MeasurementSystem);
+                ValidationHelper.CheckGuid(item.MeasurementSystem.MSId);
+                ValidationHelper.CheckObject(item.BiologicalElement);
+                ValidationHelper.CheckGuid(item.BiologicalElement.BiologicalElementId);
+            }
+
             var queryAddMrItems = new StringBuilder(SqlScriptsMr.AddMrItemShot);
 
             foreach (var mrIt in mrItems)
@@ -174,8 +209,9 @@ namespace DataAccess
                         {
                             MRItemId = (Guid)reader[0],
                             Name = (string)reader[1],
-                            MeasurementSystem = new MeasurementSystem { 
-                                ShortName = (string)reader[2], 
+                            MeasurementSystem = new MeasurementSystem
+                            {
+                                ShortName = (string)reader[2],
                                 FullName = (string)reader[3]
                             },
                             BiologicalElement = new BiologicalElement
@@ -208,7 +244,10 @@ namespace DataAccess
         /// <param name="mr">Добавляемая МР.</param>
         public async Task AddMr(MR mr)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckGuid(mr.MrItem.MRItemId);
+            ValidationHelper.CheckGuid(mr.Gender.GenderId);
+            ValidationHelper.CheckGuid(mr.MRId);
+
             await using var connection = new SqlConnection(Connection);
             var command = new SqlCommand(SqlScriptsMr.AddMr, connection);
 
@@ -227,7 +266,16 @@ namespace DataAccess
         /// <param name="mrs">Добавляемый объект.</param>
         public async Task AddMrs(IEnumerable<MR> mrs)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckObject(mrs);
+            foreach (var item in mrs)
+            {
+                ValidationHelper.CheckObject(item);
+                ValidationHelper.CheckObject(item.MrItem);
+                ValidationHelper.CheckGuid(item.MrItem.MRItemId);
+                ValidationHelper.CheckObject(item.Gender);
+                ValidationHelper.CheckGuid(item.Gender.GenderId);
+            }
+
             var queryAddMrItems = new StringBuilder(SqlScriptsMr.AddMrShot);
 
             foreach (var mr in mrs)
@@ -314,11 +362,13 @@ namespace DataAccess
         /// <param name="mr">Измененный объект.</param>
         public async Task UpdateMr(MR mr)
         {
-            // TODO VALIDATION.
+            ValidationHelper.CheckGuid(mr.MrItem.MRItemId);
+            ValidationHelper.CheckGuid(mr.Gender.GenderId);
+            ValidationHelper.CheckGuid(mr.MRId);
 
             await using var connection = new SqlConnection(Connection);
             var command = new SqlCommand(SqlScriptsMr.UpdateMr, connection);
-            
+
             command.Parameters.AddWithValue("@mrItemId", mr.MrItem.MRItemId);
             command.Parameters.AddWithValue("@genderId", mr.Gender.GenderId);
             command.Parameters.AddWithValue("@data", mr.Data);
@@ -327,41 +377,6 @@ namespace DataAccess
             command.Parameters.AddWithValue("@mrId", mr.MRId);
 
             await DoQuery(connection, command);
-        }
-
-        #endregion
-        
-        #region Private Methods
-
-        /// <summary>
-        /// Добавление элементов.
-        /// </summary>
-        /// <param name="query">Запрос на добавление.</param>
-        private async Task AddObjectInDb(string query)
-        {
-            await using var connection = new SqlConnection(Connection);
-            var command = new SqlCommand(query, connection);
-
-            await DoQuery(connection, command);
-        }
-
-        /// <summary>
-        /// Выполнение запроса.
-        /// </summary>
-        /// <param name="connection">Объект подключения.</param>
-        /// <param name="command">Объект запроса для выпонения команды.</param>
-        private static async Task DoQuery(IDbConnection connection, DbCommand command)
-        {
-            try
-            {
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                throw;
-            }
         }
 
         #endregion

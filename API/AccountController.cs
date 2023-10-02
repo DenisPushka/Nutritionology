@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Nutritionology;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Validation;
 
 namespace API
 {
@@ -10,7 +9,7 @@ namespace API
     /// Контроллер для авторизации и аутентификации.
     /// </summary>
     [ApiController, Route("[controller]")]
-    public class AccountController: ControllerBase
+    public class AccountController : ControllerBase
     {
         /// <summary>
         /// Провайдер для таблицы пользователей.
@@ -30,7 +29,7 @@ namespace API
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signIn
-            )
+        )
         {
             UserManager = userManager;
             _signIn = signIn;
@@ -43,38 +42,37 @@ namespace API
         [HttpPost, Route("SignIn")]
         public async Task<IActionResult> SignIn([FromBody] UserView userView)
         {
-            // TODO Validations (user + role + all fields).
-            var user = userView.User;
-
-            // TODO ВЫНЕСТИ В СЕРВИС.
             if (ModelState.IsValid)
             {
-                user.NormalizedUserName = user.Email!.ToUpper();
-                using (MD5.Create())
-                {
-                    var random = new byte[16];
-
-                    //RNGCryptoServiceProvider is an implementation of a random number generator.
-                    var rng = new RNGCryptoServiceProvider();
-                    rng.GetBytes(random);
-
-                    user.PasswordHash = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                        password: user.PasswordHash!,
-                        salt: random,
-                        prf: KeyDerivationPrf.HMACSHA256,
-                        iterationCount: 100000, // TODO ВЫНЕСТИ.
-                        numBytesRequested: 256 / 8));
-                }
-
-                var result = await UserManager.CreateAsync(user, user.PasswordHash);
-
-                if (result.Succeeded)
-                {
-                    await UserManager.AddToRoleAsync(user, userView.Role!.Name!);
-                }
+                return await AccountService.CreateUserWithRole(userView.User, userView.Role, UserManager)
+                    ? await Login(userView.User)
+                    : NoContent();
             }
 
-            return Ok();
+            return NoContent();
+        }
+
+
+        /// <summary>
+        /// Вход пользователя в систему.
+        /// </summary>
+        /// <param name="user">Данные для входа пользователя в систему.</param>
+        /// <returns>При успехе возврашается пользователь со своей ролью, при неуспехе - ничего</returns>
+        [HttpPost, Route("Login")]
+        public async Task<IActionResult> Login([FromBody] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                var getUser = await UserManager.FindByEmailAsync(user.Email);
+                
+                return getUser
+                    .PasswordHash
+                    .Equals(HashHelper.GetHash(user.PasswordHash))
+                    ? Ok(getUser)
+                    : NoContent();
+            }
+
+            return NoContent();
         }
     }
 }

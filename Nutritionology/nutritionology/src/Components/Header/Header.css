@@ -1,0 +1,32 @@
+.container_header {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+
+    white-space: nowrap;
+    background-color: #287233;
+    color: #f8f8d9;
+    padding: 0.5% 5vw;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.el {
+    
+}
+
+.logo {
+    
+}
+
+.nav {
+    
+}

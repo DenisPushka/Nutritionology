@@ -19,18 +19,33 @@ namespace DataAccess.Providers
         }
 
         /// <summary>
-        /// Таблица СИ.
+        /// Таблица "СИ".
         /// </summary>
         public ITable<MeasurementSystem> MeasurementSystem => this.GetTable<MeasurementSystem>();
 
         /// <summary>
-        /// Таблица элементов МР.
+        /// Таблица "Элемент МР".
         /// </summary>
         public ITable<MRItem> MRItems => this.GetTable<MRItem>();
 
         /// <summary>
-        /// Таблица биологических элементов.
+        /// Таблица "Биологических элементов".
         /// </summary>
         public ITable<BiologicalElement> BiologicalElements => this.GetTable<BiologicalElement>();
+
+        /// <summary>
+        /// Таблица "Название продукта".
+        /// </summary>
+        public ITable<ProductName> ProductNames => this.GetTable<ProductName>();
+        
+        /// <summary>
+        /// Таблица "Продукт".
+        /// </summary>
+        public ITable<Product> Products => this.GetTable<Product>();
+        
+        /// <summary>
+        /// Таблица "Продукт элементМР Map" 
+        /// </summary>
+        public ITable<ProductMRItemMap> ProductMItemMaps => this.GetTable<ProductMRItemMap>();
     }
 }

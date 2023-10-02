@@ -1,10 +1,11 @@
 ﻿using Nutritionology;
 
-namespace DataAccess.Interface
+namespace DataAccess.Interfaces
 {
     /// <summary>
     /// Интерфейс для запросов к таблице "Методические рекомендации".
-    /// Включает запросы для МР, элемент МР, СИ и биологического элемента. 
+    /// Включает запросы для таблиц: МР (MethodologicalRecommendation), элемент МР(MRItem),
+    /// СИ (MeasurementSystem) и биологического элемента (BiologicalElement). 
     /// </summary>
     public interface IMRRepository
     {

@@ -24,14 +24,14 @@ public class MRItem
     /// <summary>
     /// СИ.
     /// </summary>
-    [Association(ThisKey = "MSId", OtherKey = "MSId", CanBeNull = false)]
-    public MeasurementSystem MeasurementSystem { get; set; }
+    [Association(ThisKey = "MSId", OtherKey = "MSId")]
+    public MeasurementSystem? MeasurementSystem { get; set; }
 
     /// <summary>
     /// Название элемента.
     /// </summary>
     [Column(Name = "Name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Вторичный ключ к таблице Биологический элемент.
@@ -43,6 +43,6 @@ public class MRItem
     /// <summary>
     /// Биологический элемент.
     /// </summary>
-    [Association(ThisKey = "BiologicalElementId", OtherKey = "BiologicalElementId", CanBeNull = false)]
-    public BiologicalElement BiologicalElement { get; set; }
+    [Association(ThisKey = "BiologicalElementId", OtherKey = "BiologicalElementId")]
+    public BiologicalElement? BiologicalElement { get; set; }
 }

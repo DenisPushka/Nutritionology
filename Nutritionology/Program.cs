@@ -1,5 +1,5 @@
 using DataAccess;
-using DataAccess.Interface;
+using DataAccess.Interfaces;
 using DataAccess.Providers;
 using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,18 +13,20 @@ builder.Services.AddControllers();
 builder.Services.AddIdentity<User, UserRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
-    options.Password.RequiredLength = 8; // TODO вынести.
-    options.Password.RequireNonAlphanumeric = true;  // требуются ли не алфавитно-цифровые символы
-    options.Password.RequireLowercase = true;   // требуются ли символы в нижнем регистре
-    options.Password.RequireUppercase = true;   // требуются ли символы в верхнем регистре
-    options.Password.RequireDigit = true;   // требуются ли цифры
+    options.Password.RequiredLength = 6;        // TODO вынести.
+    options.Password.RequireLowercase = true;   // Требуются ли символы в нижнем регистре.
+    options.Password.RequireUppercase = true;   // Требуются ли символы в верхнем регистре.
+    options.Password.RequireDigit = true;       // Требуются ли цифры.
 })
 .AddRoles<UserRole>()
 .AddEntityFrameworkStores<IdentityContext>();
 
 builder.Services.AddTransient<MRAspNet>();
 builder.Services.AddTransient<MRLinq2Db>();
+builder.Services.AddTransient<ProductAspNet>();
+builder.Services.AddTransient<ProductLinq2Db>();
 builder.Services.AddTransient<IMRRepository, MRRepository>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
 
 builder.Services.AddDbContext<IdentityContext>(cfg =>
 {

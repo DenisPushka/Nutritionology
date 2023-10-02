@@ -164,7 +164,7 @@ internal static class SqlScriptsMr
         "FROM [dbo].[MethodologicalRecommendation] MR" +
         "    INNER JOIN[dbo].[MRItem] MRIt" +
         "        ON MRIt.MRItemId = MR.MrItemId" +
-        "    LEFT JOIN[dbo].[Genders] G" +
+        "    LEFT JOIN[dbo].[Gender] G" +
         "        ON G.GenderId = MR.GenderId" +
         "    INNER JOIN[dbo].[BiologicalElement] BL " +
         "        ON BL.BiologicalElementId = MRIt.BiologicalElementId" +

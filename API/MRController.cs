@@ -1,4 +1,4 @@
-﻿using DataAccess.Interface;
+﻿using DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Nutritionology;
 
@@ -70,7 +70,7 @@ namespace API
         /// <param name="mrItems">Добавляемый объект.</param>
         /// <returns>Массив всех элементов МР.</returns>
         [HttpPost, Route("AddMrItems")]
-        public async Task<MRItem[]> AddMrItems([FromBody] MRItem[] mrItems) => await _mrRepository.AddMrItems(mrItems);
+        public async Task<MRItem[]> AddMrItems(/*[FromBody]*/ MRItem[] mrItems) => await _mrRepository.AddMrItems(mrItems);
 
         /// <summary>
         /// Изменение элемента МР.

@@ -1,6 +1,7 @@
 ﻿using LinqToDB;
 using Microsoft.Extensions.Configuration;
 using Nutritionology;
+using Validation;
 
 namespace DataAccess.Providers
 {
@@ -69,7 +70,12 @@ namespace DataAccess.Providers
         /// <param name="mrItem">Измененный объект.</param>
         public async Task UpdateMrItem(MRItem mrItem)
         {
-            // TODO VALIDATION + check it.
+            ValidationHelper.CheckObject(mrItem);
+            ValidationHelper.CheckString(mrItem.Name);
+            ValidationHelper.CheckObject(mrItem.MeasurementSystem);
+            ValidationHelper.CheckGuid(mrItem.MeasurementSystem.MSId);
+            ValidationHelper.CheckObject(mrItem.BiologicalElement);
+            ValidationHelper.CheckGuid(mrItem.BiologicalElement.BiologicalElementId);
 
             await using var db = new DbNutritonology(Connection);
             await db.MRItems

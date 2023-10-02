@@ -1,0 +1,48 @@
+﻿#reset-this-root {
+    all: initial;
+}
+
+body {
+    background-color: #f8f8d9;
+    color: #287233;
+}
+
+hr {
+    background-color: #287233;
+    color: #287233;
+    height: 1px;
+}
+
+.container_body {
+    padding: 0.5% 5vw;
+    text-align: center;
+}
+
+.subTittle {
+    color: black;
+    font-weight: 400;
+    font-size: 25px;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+.blocks {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.block {
+    border: 2px solid #287233;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 10px;
+    animation: ease-in-out .3s transform;
+}
+
+.block:hover {
+    background-color: #287233;
+    color: #f8f8d9;
+    transform: translateY(5px);
+}

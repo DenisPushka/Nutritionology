@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Nutritionology;
+using Validation;
 
 namespace API
 {
@@ -28,7 +29,7 @@ namespace API
         [HttpPost, Route("AddRole")]
         public async Task<IActionResult> AddRole(UserRole role)
         {
-            //TODO Validation.
+            ValidationHelper.CheckRole(role);
 
             if (await RoleManager.FindByNameAsync(role.Name!) == null)
             {
