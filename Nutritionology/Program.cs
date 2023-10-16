@@ -23,10 +23,17 @@ builder.Services.AddIdentity<User, UserRole>(options =>
 
 builder.Services.AddTransient<MRAspNet>();
 builder.Services.AddTransient<MRLinq2Db>();
+builder.Services.AddTransient<IMRRepository, MRRepository>();
+
 builder.Services.AddTransient<ProductAspNet>();
 builder.Services.AddTransient<ProductLinq2Db>();
-builder.Services.AddTransient<IMRRepository, MRRepository>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
+
+builder.Services.AddTransient<DishAspNet>();
+builder.Services.AddTransient<IDishRepository, DishRepository>();
+
+builder.Services.AddTransient<ParameterAspNet>();
+builder.Services.AddTransient<IParameterRepository, ParameterRepository>();
 
 builder.Services.AddDbContext<IdentityContext>(cfg =>
 {

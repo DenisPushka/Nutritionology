@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Nutritionology
 {
@@ -8,16 +7,6 @@ namespace Nutritionology
     /// </summary>
     public class User: IdentityUser<Guid>
     {
-        /// <summary>
-        /// Имя.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Фамилия.
-        /// </summary>
-        public string LastName { get; set; }
-
         /// <summary>
         /// Фото.
         /// </summary>
@@ -31,6 +20,26 @@ namespace Nutritionology
         /// <summary>
         /// Параметры для пользователя.
         /// </summary>
-        public Parameter? Parameter { get; set; }
+        public List<Parameter> Parameters { get; set; }
+        
+        /// <summary>
+        /// Id пользователя.
+        /// </summary>
+        public Guid CustomerId { get; set; }
+        
+        /// <summary>
+        /// Пользователь.
+        /// </summary>
+        public Customer Customer { get; set; }
+        
+        /// <summary>
+        /// Id компании.
+        /// </summary>
+        public Guid CompanyId { get; set; }
+        
+        /// <summary>
+        /// Компания.
+        /// </summary>
+        public Company Company { get; set; }
     }
 }

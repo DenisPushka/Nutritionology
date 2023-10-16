@@ -1,13 +1,14 @@
 ﻿import {Component} from "react";
 import Header from "../Header/Header";
 import ".//Home.css";
+import Footer from "../Footer/Footer";
 
 // Главная (Домашняя страница).
 class Home extends Component {
 
     constructor(props) {
         super(props);
-    }
+    }    
 
     render() {
         return (
@@ -40,7 +41,9 @@ class Home extends Component {
                         <div className={"blocks"}>
                             <div className={"block"}>Завтрак</div>
                             <div className={"block"}>Обед</div>
+                            <div className={"block"}>Полдник</div>
                             <div className={"block"}>Ужин</div>
+                            <div className={"block"}>Сонник</div>
                         </div>
 
                         <hr/>
@@ -68,9 +71,11 @@ class Home extends Component {
                     </div>
                 </div>
                 </body>
+                
+                <Footer/>
             </div>
         );
     }
 }
 
-export default Home;
+export default Home

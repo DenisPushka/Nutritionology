@@ -57,6 +57,10 @@ class Header extends Component {
 
             <header className={"container_header"}>
 
+                <div className={"name"}>
+                    Nutritiology    
+                </div>
+                
                 <div className={"logo"}>
                     Logo
                 </div>
@@ -70,7 +74,9 @@ class Header extends Component {
                 <div><Nav.Link href="/#">Главная</Nav.Link></div>
                 <div><Nav.Link href="/About">О нас</Nav.Link></div>
                 <div><Nav.Link href="/Command">Команда</Nav.Link></div>
-                <div><Nav.Link href="/SignUp">Личный кабинет</Nav.Link></div>
+                <div><Nav.Link href="/PK">Личный кабинет</Nav.Link></div>
+                <div><Nav.Link href="/LogIn">Вход</Nav.Link></div>
+                <div><Nav.Link href="/SignUp">Регистрация</Nav.Link></div>
                 <div><Nav.Link href="/Menu">Мой рацион</Nav.Link></div>
 
             </header>

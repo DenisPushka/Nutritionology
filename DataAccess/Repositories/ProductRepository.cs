@@ -1,5 +1,4 @@
-﻿using System.Data.Entity.Core;
-using DataAccess.Interfaces;
+﻿using DataAccess.Interfaces;
 using DataAccess.Providers;
 using Nutritionology;
 

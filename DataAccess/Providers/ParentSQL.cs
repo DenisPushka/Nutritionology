@@ -30,7 +30,7 @@ namespace DataAccess.Providers
         {
             await using var connection = new SqlConnection(Connection);
             var command = new SqlCommand(query, connection);
-
+            
             await DoQuery(connection, command);
         }
         
@@ -39,12 +39,13 @@ namespace DataAccess.Providers
         /// </summary>
         /// <param name="connection">Объект подключения.</param>
         /// <param name="command">Объект запроса для выпонения команды.</param>
-        protected static async Task DoQuery(IDbConnection connection, DbCommand command)
+        protected async Task DoQuery(SqlConnection connection, DbCommand command)
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 await command.ExecuteNonQueryAsync();
+                await connection.CloseAsync();
             }
             catch (Exception e)
             {

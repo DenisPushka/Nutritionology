@@ -37,13 +37,7 @@ public class Menu
     /// </summary>
     [Association(ThisKey = "DayOfWeekId", OtherKey = "DayOfWeekId")]
     public DayOfWeek DayOfWeek { get; set; }
-    
-    /// <summary>
-    /// Номер приема пищи.
-    /// </summary>
-    [Column(Name = "NumberMealTime")]
-    public int NumberMealTime { get; set; }
-    
+
     /// <summary>
     /// Номер недели.
     /// </summary>

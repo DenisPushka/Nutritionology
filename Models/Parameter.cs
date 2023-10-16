@@ -23,6 +23,12 @@ namespace Nutritionology
         /// </summary>
         [PrimaryKey]
         public Guid ParameterId { get; set; }
+        
+        /// <summary>
+        /// PK.
+        /// </summary>
+        [Column("GenderId")]
+        public Guid GenderId { get; set; }
 
         /// <summary>
         /// Пол.
@@ -65,6 +71,11 @@ namespace Nutritionology
                 _height = value;
             }
         }
+
+        /// <summary>
+        /// Возраст.
+        /// </summary>
+        public int Age;
 
         /// <summary>
         /// Вкусовые предпочтения.

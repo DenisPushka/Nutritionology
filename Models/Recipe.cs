@@ -15,5 +15,13 @@ public class Recipe
     /// </summary>
     public string Description { get; set; }
     
+    /// <summary>
+    /// Id блюда.
+    /// </summary>
     public Guid DishId { get; set; }
+    
+    /// <summary>
+    /// Засекречн ли рецепт.
+    /// </summary>
+    public bool IsPrivate { get; set; }
 }

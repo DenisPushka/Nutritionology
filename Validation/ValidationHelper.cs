@@ -40,9 +40,11 @@ public static class ValidationHelper
     public static void CheckUserForAllField(User user)
     {
         CheckObject(user);
-        if (string.IsNullOrWhiteSpace(user.Name)
-            || string.IsNullOrWhiteSpace(user.LastName)
-            || string.IsNullOrWhiteSpace(user.PasswordHash)
+        if (
+            // TODO изменить.
+            // string.IsNullOrWhiteSpace(user.Name)
+            // || string.IsNullOrWhiteSpace(user.LastName)
+            string.IsNullOrWhiteSpace(user.PasswordHash)
             || string.IsNullOrWhiteSpace(user.Email))
         {
             throw new ArgumentException($"Некорректно введен аргумент {user}"); // TODO ВЫНЕСТИ В CONST.
@@ -76,6 +78,20 @@ public static class ValidationHelper
         if (obj == null)
         {
             throw new NullReferenceException($"Объект является null - {obj}");
+        }
+    }
+
+    /// <summary>
+    /// Проверка числа на нахождение в промежутке.
+    /// </summary>
+    /// <param name="checkNumber">Проверяемое число.</param>
+    /// <param name="start">Начало интервала.</param>
+    /// <param name="finish">Конец интервала.</param>
+    public static void CheckNumber(int checkNumber, int start, int finish)
+    {
+        if (checkNumber < start || checkNumber > finish)
+        {
+            throw new ArgumentException($"Передаваемое число {checkNumber} не попало в интервал [{start}..{finish}].");
         }
     }
 }

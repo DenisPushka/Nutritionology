@@ -18,5 +18,5 @@ public class ProductName
     /// Название.
     /// </summary>
     [Column(Name = "Name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }
