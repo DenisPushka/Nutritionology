@@ -1,10 +1,12 @@
 ﻿import {Component} from "react";
+import './Footer.css';
 
+// Подвал.
 class Footer extends Component {
 
     render() {
         return (<>
-            <div>
+            <div className={"containerFooter"}>
                 Сервис и поддержка
             </div>
         </>);

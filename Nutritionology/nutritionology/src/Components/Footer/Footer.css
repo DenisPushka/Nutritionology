@@ -1,0 +1,13 @@
+﻿
+.containerFooter {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    white-space: nowrap;
+    background-color: #287233;
+    color: #f8f8d9;
+    padding: 0.5% 5vw;
+    margin-top: 3vh;
+}
